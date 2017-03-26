@@ -1,0 +1,16 @@
+declare
+  L = [a b c d 1 2 3 4]
+  
+  fun {LinReverse L1 L2}
+    case L2
+      of nil then L1
+      [] L2h|L2t then {LinReverse L2h|L1 L2t}
+    end  
+  end
+
+  fun {MyReverse L}
+     {LinReverse nil L}
+  end
+
+  {Browse L}
+  {Browse {MyReverse L}}

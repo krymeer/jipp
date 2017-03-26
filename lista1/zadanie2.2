@@ -1,0 +1,33 @@
+declare
+fun {NSortAcc L S Acc}
+   case L
+   of nil then Acc|S
+   [] Lh|Lt then
+      if Lh < Acc then
+	 {NSortAcc Lt Acc|S Lh}
+      else
+	 {NSortAcc Lt Lh|S Acc}
+      end
+   end
+end
+
+proc {NSort IN OUT}
+   local List in
+      case IN
+      of nil then skip
+      [] H|T then
+	 thread
+	    List = {NSortAcc T nil H}
+	 end
+	 thread
+	    OUT = List
+	 end
+      end
+   end
+end
+
+local IN OUT in
+   IN = [20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1]
+   {NSort IN OUT}
+   {Browse OUT}
+end

@@ -1,0 +1,20 @@
+declare T
+  fun {Rozmowca Fun Interlokutor}
+    local P S in
+      P = {NewPort S}
+      thread {ForAll S 
+        proc {$ M}
+          {Browse M}
+          {Delay 500}
+          {Send Interlokutor {Fun M}}
+        end
+      } T=unit end  
+      P
+    end
+  end
+
+  R1 = {Rozmowca fun {$ X} X+1 end R2} 
+  R2 = {Rozmowca fun {$ X} X-1 end R1}
+  
+  {Send R1 0}
+  {Wait T}

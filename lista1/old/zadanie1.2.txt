@@ -1,0 +1,26 @@
+declare
+L1 = [1 4 7 10 13]
+L2 = [2 5 8 11 14]
+L3 = [3 6 9 12 15]
+
+fun {MergeTwoLists L1 L2}
+  case L1
+    of nil then L2
+    [] L1h|L1t then
+      case L2
+        of nil then L1
+        [] L2h|L2t then
+	  if L1h >= L2h then
+	    L2h|{MergeTwoLists L1 L2t}
+	  else
+	    L1h|{MergeTwoLists L2 L1t}
+	  end
+       end
+   end
+end
+
+fun {Merge L1 L2 L3}
+  {MergeTwoLists L1 {MergeTwoLists L2 L3}}
+end
+
+{Browse {Merge L1 L2 L3}}

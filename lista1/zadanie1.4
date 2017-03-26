@@ -1,0 +1,38 @@
+declare
+
+fun {MyAppend L1 L2}
+   case L1 of nil then L2
+   [] H1|T1 then H1|{MyAppend T1 L2}
+   end
+end
+
+fun {FindAll V T}
+   case T
+   of leaf then nil
+   [] tree(key: Key value: Val left: leaf right: Right) then
+      if Val == V then Key|{FindAll V Right}
+      else {FindAll V Right} end
+   [] tree(key: Key value: Val left: Left right: leaf) then
+      if V == Val then
+	 {MyAppend {FindAll V Left} [Key]}
+      else
+	 {FindAll V Left}
+      end
+   [] tree(key: Key value: Val left: Left right: Right) then
+      if Val == V then
+	 {MyAppend {MyAppend {FindAll V Left} [Key]} {FindAll V Right}}
+      else {MyAppend {FindAll V Left} {FindAll V Right}} end
+   end
+end
+
+fun {TreeInsert X V T}
+   case T
+   of leaf then tree(key: X value: V left: leaf right: leaf)
+   [] tree(key: Y value: V left: T1 right: T2) andthen X==Y then tree(key: X value: V left: T1 right: T2)
+   [] tree(key: Y value: W left: T1 right: T2) andthen X<Y then tree(key: Y value: W left: {TreeInsert X V T1} right: T2)
+   [] tree(key: Y value: W left: T1 right: T2) andthen X>Y then tree(key: Y value: W left: T1 right: {TreeInsert X V T2}) end
+end
+
+T = {TreeInsert 24 3{TreeInsert 18 6 {TreeInsert 11 3 {TreeInsert 12 6 {TreeInsert 8 3 {TreeInsert 7 5 {TreeInsert 6 3 {TreeInsert 2 3 {TreeInsert 10 3 leaf}}}}}}}}}
+
+{Browse {FindAll 3 T}}

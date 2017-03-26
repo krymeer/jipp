@@ -1,0 +1,18 @@
+declare
+L = [5 6 7 8]
+
+fun {MyAppend L1 L2}
+   case L1
+      of nil then L2
+      [] H1|T1 then H1|{MyAppend T1 L2}
+   end
+end
+
+fun {Reverse L}
+   case L
+      of nil then nil
+      [] H|T then {MyAppend {Reverse T} [H]}
+   end
+end
+
+{Browse {Reverse L}}
