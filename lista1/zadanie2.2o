@@ -4,18 +4,11 @@ fun {NSortAcc L S Acc}
    of nil then Acc|S
    [] Lh|Lt then
       if Lh < Acc then
-   {NSortAcc Lt Acc|S Lh}
+	 {NSortAcc Lt Acc|S Lh}
       else
-   {NSortAcc Lt Lh|S Acc}
+	 {NSortAcc Lt Lh|S Acc}
       end
    end
-end
-
-fun {ReadList L}
-   {Delay 250}
-   case L
-      of H|T then H|{ReadList T}
-      else L end
 end
 
 proc {NSort IN OUT}
@@ -23,12 +16,12 @@ proc {NSort IN OUT}
       case IN
       of nil then skip
       [] H|T then
-   thread
-      List = {NSortAcc T nil H}
-   end
-   thread
-      OUT = {ReadList List}
-   end
+	 thread
+	    List = {NSortAcc T nil H}
+	 end
+	 thread
+	    OUT = List
+	 end
       end
    end
 end
