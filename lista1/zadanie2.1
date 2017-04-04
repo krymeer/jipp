@@ -1,49 +1,25 @@
 declare
-Stream = {NewCell nil}
 Msg1 = 'ping'
 Msg2 = 'pong'
 
-fun {AppendMsg L1 L2}
-   case L1
-   of nil then
-      case L2
-         of nil then nil
-         else L2|nil
-      end
-   [] H|T then H|{AppendMsg T L2}
-   end
+proc {Ping L Id}
+   {Browse Id#{List.last L}}
+   {Delay 2000}
+   {Ping {Append L Msg1|nil} Id}
 end
 
-fun {LastMsg L}
-   case L
-   of nil then nil
-   [] H|T then
-      if T == nil then H
-      else {LastMsg T} end
-   end
-end
-
-proc {Pong Id}
-   if {LastMsg @Stream} == Msg1 then
-      Stream := {AppendMsg @Stream Msg2}
-      {Browse Id#Msg2}
-   else {Delay 1000} end
-   {Pong Id}
-end
-
-proc {Ping Id}
-   if {LastMsg @Stream} == Msg2 then
-      Stream := {AppendMsg @Stream Msg1}
-      {Browse Id#Msg1}
-   else {Delay 1000} end
-   {Ping Id}
+proc {Pong L Id}
+   {Browse Id#{List.last L}}
+   {Delay 2000}
+   {Pong {Append L Msg2|nil} Id}
 end
 
 proc {Game Id1 Id2}
-   Stream := Msg1|nil
-   {Browse Id1#Msg1}
-   thread {Pong Id2} end
-   thread {Delay 1000} {Ping Id1} end
+   local L in
+      L = Msg1|nil
+      thread {Delay 1000} {Pong {Append L Msg2|nil} Id2} end
+      thread {Ping L Id1} end
+   end
 end
 
 {Game 'p1' 'p2'}
