@@ -1,0 +1,33 @@
+declare
+Msg1 = 'ping'
+Msg2 = 'pong'
+
+proc {Ping L Id}
+   if {List.last L} == Msg2 then
+      {Browse Id#Msg1}
+      local R in
+         {Append L Msg1|nil R}
+         {Ping R Id}
+      end
+   else {Ping L Id} end
+end
+
+proc {Pong L Id}
+   {Delay 1000}
+   if {List.last L} == Msg1 then
+      {Browse Id#Msg2}
+      local R in
+         {Append L Msg2|nil R}
+         {Pong R Id}
+      end
+   else {Delay 1000} {Pong L Id} end
+end
+
+proc {Game Id1 Id2}
+   local L in
+      thread {Ping L Id1} end
+      thread L = Msg1|nil {Pong L Id2} end
+   end
+end
+
+{Game 'p1' 'p2'}

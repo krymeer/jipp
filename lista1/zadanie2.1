@@ -1,25 +1,22 @@
 declare
-Msg1 = 'ping'
-Msg2 = 'pong'
-
-proc {Ping L Id}
-   {Browse Id#{List.last L}}
-   {Delay 2000}
-   {Ping {Append L Msg1|nil} Id}
-end
-
-proc {Pong L Id}
-   {Browse Id#{List.last L}}
-   {Delay 2000}
-   {Pong {Append L Msg2|nil} Id}
-end
-
-proc {Game Id1 Id2}
-   local L in
-      L = Msg1|nil
-      thread {Delay 1000} {Pong {Append L Msg2|nil} Id2} end
-      thread {Ping L Id1} end
+fun {Player Id L}
+   case L
+   of H|T then
+      {Browse Id#H}
+      {Delay 1000}
+      if H == 'ping' then
+	 'pong'|{Player Id T}
+      else
+	 'ping'|{Player Id T}
+      end
    end
 end
 
-{Game 'p1' 'p2'}
+declare
+proc {Game T1 T2}
+   thread T1 = {Player 'p1' T2} end
+   thread T2 = 'ping'|{Player 'p2' T1} end
+end
+
+declare P1 P2
+{Game P1 P2}
