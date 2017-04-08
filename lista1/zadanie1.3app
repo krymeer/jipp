@@ -1,0 +1,9 @@
+declare
+fun {MyAppend L1 L2}
+   {FoldR L1 fun {$ X Y} X|Y end L2}
+end
+
+L1 = [1 2 3 4 5 6 7]
+L2 = [8 9 10 11 12]
+
+{Browse {MyAppend L1 L2}}
