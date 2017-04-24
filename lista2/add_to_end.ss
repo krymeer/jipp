@@ -1,0 +1,5 @@
+(define (add_to_end lst element)
+  (if (null? lst)
+    (list element)
+    (cons (car lst)
+      (add_to_end (cdr lst) element))))

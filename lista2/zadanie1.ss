@@ -1,14 +1,8 @@
-(define (add_to_end lst element)
-  (if (null? lst)
-    (list element)
-    (cons (car lst)
-      (add_to_end (cdr lst) element))))
-
+; Obliczanie wartości funkcji func dla każdego argumentu z listy args
 (define (mymap func args)
   (define lst '())
   (for-each 
     (lambda (x)
-      (set! lst (add_to_end lst (* 2 x))))
+      (set! lst (cons (func x) lst)))
     args)
-  (display lst)
-  (func args))
+  (reverse lst))
