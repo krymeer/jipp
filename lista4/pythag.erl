@@ -1,3 +1,5 @@
+% Autor: Krzysztof Osada, 2017
+
 -module(pythag).
 -export([pythag/1]).
 
