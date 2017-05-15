@@ -1,3 +1,4 @@
+*.beam
 *.pdf
 /pdf/*
 /wykłady/*
