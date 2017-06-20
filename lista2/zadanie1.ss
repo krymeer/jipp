@@ -1,8 +1,4 @@
-; Obliczanie wartości funkcji func dla każdego argumentu z listy args
-(define (mymap func args)
-  (define lst '())
-  (for-each 
-    (lambda (x)
-      (set! lst (cons (func x) lst)))
-    args)
-  (reverse lst))
+(define (my_map func l)
+  (cond 
+    ((null? l) '())
+    (else (cons (func (car l)) (my_map func (cdr l))))))
